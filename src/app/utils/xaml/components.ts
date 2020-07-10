@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, ElementRef, ContentChild, Templ
 @Component({
 	selector: 'Container, Page',
 	template: `
-  <div class="container-fluid">
+  <div [class]="(flex) ? 'container-fluid' : 'container'">
     <div class="row" style="height: 100%;">
       <div class="col-12">
         <ng-content></ng-content>
@@ -11,7 +11,9 @@ import { Component, Input, Output, EventEmitter, ElementRef, ContentChild, Templ
     </div>
   </div>`,
 })
-export class XAMLPage { }
+export class XAMLPage {
+	@Input('flex') flex: boolean = false;
+}
 
 
 
@@ -29,12 +31,12 @@ export class XAMLPageRouterOutlet { }
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
   
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-      <ul #WebMenu class="navbar-nav ml-auto">
+      <ul #WebMenu class="navbar-nav mr-auto" (click)="isMenuCollapsed = !isMenuCollapsed">
 		  <ng-container *ngTemplateOutlet="web"></ng-container>
 	  </ul>
     </div>
   </nav>
-    `,
+	`,
 })
 export class XAMLActionBar {
 	@Input('title') title: string = '';
@@ -44,6 +46,8 @@ export class XAMLActionBar {
 
 	@ViewChild('WebMenu', { static: true }) WebMenu: ElementRef;
 	@ContentChild('web', { static: true }) web: TemplateRef<ElementRef>;
+
+	constructor(public state: AppStateService) { }
 
 	ngAfterViewInit() {
 		this.WebMenu.nativeElement.querySelectorAll('li').forEach((n, i) => {
@@ -120,14 +124,23 @@ export class XAMLScrollView {
 @Component({
 	selector: 'StackLayout',
 	template: `
-  <div class="container-fluid">
-      <div class="row stack-layout-row">
+  <div [class]="(flex) ? 'container-fluid' : 'container'">
+      <div class="row" [ngClass]="{'stack-layout-row': orientation == 'vertical'}">
         <ng-content></ng-content>
       </div>
   </div>
 	`,
 })
-export class XAMLStackLayout { }
+export class XAMLStackLayout {
+	@Input('flex') flex: boolean = false;
+	@Input('orientation') orientation: 'vertical' | 'horizontal' = 'vertical';
+}
+
+@Component({
+	selector: 'WrapLayout',
+	template: `<ng-content></ng-content>`,
+})
+export class XAMLWrapLayout { }
 
 @Component({
 	selector: 'GridLayout',

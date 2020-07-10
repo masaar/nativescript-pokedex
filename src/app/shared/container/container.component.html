@@ -2,7 +2,7 @@
 	<ng-template #mobile>
 		<Container style.paddingTop="16">
 			<GridLayout rows="* 60">
-				<router-outlet row="0"></router-outlet>
+				<page-router-outlet row="0"></page-router-outlet>
 				<GridLayout row="1" columns="8 * 8 * 8 * 8" class="text-center" style.borderColor="black"
 					style.borderWidth="1 0 0 0" style.padding="10">
 					<GridLayout col="1" rows="* *" [style.color]="(isCurrentRoute('today')) ? 'blue' : 'gray'"
@@ -15,7 +15,8 @@
 						<Label class="fas" text="&#xf522;"></Label>
 						<Label row="1" text="Random"></Label>
 					</GridLayout>
-					<GridLayout col="5" rows="* *" [style.color]="(isCurrentRoute(['pokedex', 'pokemon'])) ? 'blue' : 'gray'"
+					<GridLayout col="5" rows="* *"
+						[style.color]="(isCurrentRoute(['pokedex', 'pokemon'])) ? 'blue' : 'gray'"
 						[nsRouterLink]="['/', 'app', 'pokedex']">
 						<Label class="fas" text="&#xf03a;"></Label>
 						<Label row="1" text="Pokédex"></Label>

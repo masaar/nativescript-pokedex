@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Page } from 'tns-core-modules/ui/page';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
 	selector: 'app-container',
@@ -8,9 +10,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ContainerComponent implements OnInit {
 
-	constructor(public route: ActivatedRoute, private router: Router) { }
+	constructor(public route: ActivatedRoute, private router: Router, page: Page, private routerExt: RouterExtensions) {
+		page.actionBarHidden = true;
+	}
 
-	ngOnInit() { }
+	ngOnInit() {
+		// console.log(this.router.url);
+		this.routerExt.navigate(['/app/today']);
+	}
 
 	isCurrentRoute(routes: string | Array<string>): boolean {
 		if (typeof routes == 'string') {
